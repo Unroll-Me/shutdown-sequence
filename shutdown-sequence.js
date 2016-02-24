@@ -64,7 +64,7 @@ ShutdownSequence.prototype.shutdown = function () {
 	return this.fns.reduce(function (promise, fn) {
 		return promise
 			.then(function () { return fn.fn(); })
-			.fail(function (err) { self.emit("error", err, fn.name); });
+			.catch(function (err) { self.emit("error", err, fn.name); });
 	}, Q.resolve())
 		.then(function () { self.emit('shutdownFinished'); });
 };
@@ -81,7 +81,7 @@ function arrayCompare(arr, a, b) {
 }
 /**
  * Gets which section an object belongs in.
- * 
+ *
  * @returns -1 if object is in head array, zero if it's in neither, or 1 if it's in tail array.
  */
 function getSectionIndex(s, obj) {
